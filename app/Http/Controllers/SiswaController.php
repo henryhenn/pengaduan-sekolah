@@ -18,13 +18,6 @@ class SiswaController extends Controller
         return view('siswa.create');
     }
 
-    public function show(Siswa $siswa)
-    {
-        $siswa->load(['pelaporan']);
-
-        return view('siswa.detail', compact('siswa'));
-    }
-
     public function store()
     {
         $this->getValidation();

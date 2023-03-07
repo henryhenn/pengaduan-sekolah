@@ -12,21 +12,27 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::controller(\App\Http\Controllers\HomepageController::class)->group(function () {
+    Route::get('/', 'index')->name('homepage');
 
-Route::get('/', [\App\Http\Controllers\HomepageController::class, 'index'])->name('homepage');
+    Route::post('lapor', 'store')->name('lapor.store');
+});
 
-Auth::routes();
+Route::get('/profile', function () {
+    return view('profile');
+})->name('profile');
+
+Auth::routes(['register' =>false]);
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-    Route::resource('siswas', \App\Http\Controllers\SiswaController::class);
+    Route::resource('siswas', \App\Http\Controllers\SiswaController::class)->except('show');
 
     Route::resource('kategoris', \App\Http\Controllers\KategoriController::class)->except('show');
 
-    Route::resource('aspirasis', \App\Http\Controllers\AspirasiController::class)->except(['create', 'destroy']);
+    Route::resource('aspirasis', \App\Http\Controllers\AspirasiController::class)->only(['store', 'show']);
 
     Route::resource('pelaporans', \App\Http\Controllers\PelaporanController::class)->except(['edit', 'update']);
 
-    Route::post('lapor', [\App\Http\Controllers\HomepageController::class, 'store'])->name('lapor.store');
 });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aspirasi;
 use App\Models\Pelaporan;
 
 class PelaporanController extends Controller
@@ -21,12 +22,9 @@ class PelaporanController extends Controller
     public function show(Pelaporan $pelaporan)
     {
         $pelaporan->load(['siswa', 'kategori']);
+        $latest_aspirasi = Aspirasi::where('pelaporan_id', $pelaporan->id)->latest()->first();
+        $aspirasis = Aspirasi::where('pelaporan_id', $pelaporan->id)->latest()->get();
 
-        return view('pelaporan.detail', compact('pelaporan'));
-    }
-
-    public function destroy(Pelaporan $pelaporan)
-    {
-        //
+        return view('pelaporan.detail', compact(['pelaporan', 'latest_aspirasi', 'aspirasis']));
     }
 }

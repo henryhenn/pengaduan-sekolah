@@ -33,9 +33,7 @@
                             <td>
                                 <div class="d-flex">
                                     <a href="{{route('siswas.edit', $siswa->id)}}"
-                                       class="btn btn-sm btn-warning">Edit</a>
-                                    <a href="{{route('siswas.show', $siswa->id)}}"
-                                       class="btn btn-sm btn-primary mx-3">Pengaduan</a>
+                                       class="btn btn-sm btn-warning me-3">Edit</a>
                                     <form action="{{route('siswas.destroy', $siswa->id)}}" method="post">
                                         @csrf
                                         @method('delete')

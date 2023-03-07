@@ -7,11 +7,8 @@
 
         <nav id="navbar" class="navbar order-last order-lg-0">
             <ul>
-                <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-                <li><a class="nav-link scrollto" href="#pengaduan">Pengaduan</a></li>
-                <li><a class="nav-link scrollto" href="#cari">Cari Pengaduan</a></li>
-                <li><a class="nav-link scrollto" href="#about">About</a></li>
-                <li><a class="nav-link scrollto" href="#services">Services</a></li>
+                <li><a class="nav-link {{request()->routeIs('homepage') ? 'active' : ''}}" href="{{route('homepage')}}">Home</a></li>
+                <li><a class="nav-link {{request()->routeIs('profile') ? 'active' : ''}}" href="{{route('profile')}}">Profile</a></li>
                 @guest
                     <li><a class="nav-link" href="{{route('login')}}">Login</a></li>
                 @endguest

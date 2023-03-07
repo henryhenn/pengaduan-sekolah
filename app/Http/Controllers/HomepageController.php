@@ -5,14 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Kategori;
 use App\Models\Pelaporan;
 use App\Models\Siswa;
+use Illuminate\Contracts\View\View;
 
 class HomepageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view('welcome', [
@@ -20,17 +16,11 @@ class HomepageController extends Controller
             'siswa' => Siswa::orderBy('nisn')->get(),
             'pencarian' => Pelaporan::query()
                 ->with(['siswa', 'kategori'])
-                ->filter(request(['nisn', 'kategori', 'lokasi', 'keterangan']))
+                ->filter(request(['nisn', 'kategori', 'lokasi', 'keterangan', 'kode']))
                 ->get(),
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store()
     {
         $data = $this->getValidation();
@@ -38,27 +28,13 @@ class HomepageController extends Controller
         if (request()->hasFile('foto')) {
             $data['foto'] = request()->file('foto')->store('foto-laporan');
         }
+        $kode = time() . '-' . request()->get('siswa_id');
 
-        Pelaporan::create($data);
+        Pelaporan::create(array_merge($data, compact('kode')));
 
-        return redirect('/#pengaduan')->with('message', 'Laporan Anda Berhasil Disubmit!');
+        return redirect('/#pengaduan')->with('message', $kode);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\Pelaporan $pelaporan
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Pelaporan $pelaporan)
-    {
-        //
-    }
-
-    /**
-     * @return void
-     * @throws \Illuminate\Validation\ValidationException
-     */
     public function getValidation(): array
     {
         return $this->validate(request(), [

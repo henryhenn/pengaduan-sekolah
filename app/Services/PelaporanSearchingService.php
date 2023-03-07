@@ -10,19 +10,23 @@ class PelaporanSearchingService
             return $query->where('lokasi', 'like', '%' . $lokasi . '%');
         });
 
+        $query->when($request['kode'] ?? false, function ($query, $kode) {
+            return $query->where('kode', 'like', '%' . $kode . '%');
+        });
+
         $query->when($request['keterangan'] ?? false, function ($query, $keterangan) {
-           return $query->where('keterangan', 'like', '%' . $keterangan . '%');
+            return $query->where('keterangan', 'like', '%' . $keterangan . '%');
         });
 
         $query->when($request['nisn'] ?? false, function ($query, $nisn) {
-           $query->whereHas('siswa', function ($query) use($nisn) {
-              return $query->where('nisn', 'like', '%' . $nisn . '%');
-           });
+            $query->whereHas('siswa', function ($query) use ($nisn) {
+                return $query->where('nisn', 'like', '%' . $nisn . '%');
+            });
         });
         $query->when($request['kategori'] ?? false, function ($query, $kategori) {
-           $query->whereHas('kategori', function ($query) use($kategori) {
-              return $query->where('ket_kategori', 'like', '%' . $kategori . '%');
-           });
+            $query->whereHas('kategori', function ($query) use ($kategori) {
+                return $query->where('ket_kategori', 'like', '%' . $kategori . '%');
+            });
         });
     }
 }

@@ -6,6 +6,7 @@ use App\Services\PelaporanSearchingService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Pelaporan extends Model
@@ -18,6 +19,7 @@ class Pelaporan extends Model
         'lokasi',
         'keterangan',
         'foto',
+        'kode',
     ];
 
     public function aspirasi(): HasOne
